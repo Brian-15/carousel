@@ -39,3 +39,21 @@ it("works when you click on the left arrow", function() {
   // expect to be back at first image
   expect(queryByAltText("Photo by Richard Pasquarella on Unsplash")).toBeInTheDocument();
 });
+
+it("hides left arrow when on first image", function() {
+  const { queryByTestId } = render(<Carousel />);
+  expect(queryByTestId("left-arrow")).not.toBeInTheDocument();
+  expect(queryByTestId("right-arrow")).toBeInTheDocument();
+});
+
+it("hides right arrow when on last image", function() {
+  const { queryByTestId } = render(<Carousel />);
+  const rightArrow = queryByTestId("right-arrow");
+
+  // cycle Carousel to last image
+  fireEvent.click(rightArrow);
+  fireEvent.click(rightArrow);
+
+  expect(queryByTestId("left-arrow")).toBeInTheDocument();
+  expect(queryByTestId("right-arrow")).not.toBeInTheDocument();
+});
